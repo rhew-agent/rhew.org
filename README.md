@@ -1,17 +1,5 @@
 # Build and serve locally (in foreground)
 
-## Configure secrets
-
-Change user and password below.
-
-```
-echo 'PODCAST_USER=Bob' > podcast-stripper/secrets.env
-echo "PODCAST_PASSWORD_HASH='$(docker run --rm caddy caddy hash-password --plaintext 'hiccup')'" >> podcast-stripper/secrets.env
-mkdir podcast-stripper
-touch stripper-secrets.env
-
-```
-
 ## Build and serve
 
 ```
@@ -53,15 +41,6 @@ the generated output directory.
 ssh rhew.org
 ```
 
-## Build podcast manager and stripper. See https://github.com/rhew/short-spot
-
-```
-pushd short-spot
-git pull origin main
-make
-popd
-```
-
 ## Build site
 
 ```
@@ -70,16 +49,9 @@ git pull origin main
 docker compose build
 ```
 
-## Configure secrets
-
-  - See above for podcast directory secrets
-  - See https://github.com/rhew/short-spot for openai secrets
-
 ## Run
 ```
 docker compose up -d rhew.org
-docker compose up -d manager
-docker compose up -d stripper
 ```
 
 # Notes

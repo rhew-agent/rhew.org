@@ -4,14 +4,10 @@ services:
       context: .
     container_name: rhew.org
     image: rhew.org
-    ports: 
+    ports:
       - 443:443
     restart: unless-stopped
-    # Contains PODCAST_USER and  PODCAST_PASSWORD_HASH
-    env_file:
-      - secrets.env
     volumes:
-      - podcasts:/usr/share/caddy/podcasts
       - caddy-data:/data
     networks:
       - reverse_proxy
@@ -25,31 +21,10 @@ services:
     networks:
       - reverse_proxy
     restart: unless-stopped
-  stripper:
-    image: stripper
-    container_name: stripper
-    command: [ "python", "stripper.py", "/var/podcasts", "--monitor" ]
-    restart: "no"
-    # Contains OPEN_AI_KEY
-    env_file:
-      - stripper-secrets.env
-    volumes:
-      - podcasts:/var/podcasts
-  manager:
-    image: manager
-    container_name: manager
-    command: [ "python", "manage-feeds.py", "/var/podcasts" ]
-    restart: unless-stopped
-    volumes:
-      - podcasts:/var/podcasts
-    environment:
-      INTERVAL: '3600'
-      PODCAST_ROOT: 'https://rhew.org/podcasts'
 
 networks:
   reverse_proxy:
     driver: bridge
 
 volumes:
-  podcasts:
   caddy-data:
